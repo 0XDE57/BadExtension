@@ -5,20 +5,10 @@
     "description": "Checks if an extension ID is in a blacklist.",
     "permissions": [
         "tabs",
-        "scripting"
+        "notifications"
     ],
     "host_permissions": [
         "https://chromewebstore.google.com/*"
-    ],
-    "content_scripts": [
-        {
-            "matches": [
-                "<all_urls>"
-            ],
-            "js": [
-                "content.js"
-            ]
-        }
     ],
     "background": {
         "service_worker": "background.js"
