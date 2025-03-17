@@ -1,0 +1,49 @@
+[
+    {
+        "name": "PayPal Honey: Automatic Coupons & Cash Back",
+        "id": "bmnlcjabgnpnenekpadlanbbkooimhnj",
+        "reasons": [
+            "Affiliate/Referral link replacement (tampering)",
+            "Privacy policy is invasive"
+        ]
+    },
+    {
+        "name": "Pie Adblock - The Ad Blocker That Pays You",
+        "id": "jpkfgepcmmchgfbjblnodjhldacghenp",
+        "reasons": [
+            "Affiliate/Referral link replacement (tampering)",
+            "Privacy policy is invasive"
+        ]
+    },
+    {
+        "name": "Pie Shopping: Cash Back and Coupons",
+        "id": "nfadicbbecgbdbgbibgflooojfbolpgk",
+        "reasons": [
+            "Affiliate/Referral link replacement (tampering)",
+            "Privacy policy is invasive"
+        ]
+    },
+    {
+        "name": "GoFullPage - Full Page Screen Capture",
+        "id": "fdpohaocaechififmbbbbbknoalclacl",
+        "endpoints":[
+            "https://www.google-analytics.com",
+            "https://stats.g.doubleclick.net/"
+        ],
+        "reasons": [
+            "Privacy policy states colleciton of 'Social Media Account' if logged in",
+            "Google Analytics"
+        ]
+    },
+    {
+        "name": "ShortsBlocker - Remove Shorts from YouTube",
+        "id": "oahiolknhkbpcolgnpljehalnhblolkm",
+        "endpoints":[
+            "https://stingray-app-buoue.ondigitalocean.app",
+            "https://ravensmove.com"
+        ],
+        "reasons": [
+            "Affiliate/Referral link replacement (tampering)"
+        ]
+    }
+]
