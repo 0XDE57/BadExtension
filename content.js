@@ -34,7 +34,6 @@ function addReasons(div, reason) {
         warningDiv.appendChild(warningSpan);
     }
 
-    //div.appendChild(warningDiv);
     insertAfter(warningDiv, div);
 }
 
@@ -57,7 +56,6 @@ function disable(reason) {
     addReasons(div, reason);
 
     return 'disabled';
-    
 }
 
 chrome.runtime.onMessage.addListener(

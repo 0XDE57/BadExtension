@@ -10,7 +10,7 @@ function isBlacklisted(tab, blacklist) {
     for (const entry of blacklist) {
         //tab.url requires 'tabs' permision
         if (tab.url.includes(entry.id)) {
-            console.log(`Extension [${entry.id}] is blacklisted: ${entry.reason}`);
+            console.log(`Extension [${entry.id}] is blacklisted: ${entry.reasons}`);
             return entry;
         }
     }
@@ -23,7 +23,7 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
             blacklist = await loadBlacklist();
             console.log('list loaded: ' + blacklist.length);
         } else {
-            console.log('already loaded');
+            console.log('already loaded' + blacklist.length);
         }
 
         let badExtensionFound = isBlacklisted(tab, blacklist);
