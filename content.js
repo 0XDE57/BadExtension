@@ -16,50 +16,58 @@ function getExtensionDiv(button) {
     return button.parentElement.parentElement.parentElement;
 }
 
+function insertAfter(newNode, referenceNode) {
+    referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+}
+
 function addReasons(div, reason) {
     let warningDiv = document.createElement('div');
+    warningDiv.style.outlineColor = 'red';
+    warningDiv.style.outlineStyle = 'solid';
+    warningDiv.style.outlineWidth = '2px';
+    warningDiv.style.padding = '10px';
     for (let r of reason.reasons) {
-        const warningSpan = document.createElement('span');
+        const warningSpan = document.createElement('li');
         warningSpan.textContent = r;
         warningSpan.style.color = 'red';
         warningSpan.style.fontWeight = 'bold';
         warningDiv.appendChild(warningSpan);
     }
-    div.appendChild(warningDiv);
+
+    //div.appendChild(warningDiv);
+    insertAfter(warningDiv, div);
 }
 
-function disable() {
+function disable(reason) {
     let button = findButton();
-    if (button) {
-        const observer = new MutationObserver((mutationsList) => {
-            for (let mutation of mutationsList) {
-                if (mutation.attributeName === 'disabled') {
-                    if (button.disabled) {
-                        console.log('Button is disabled');
-                    } else {
-                        console.log('Button is enabled');
-                    }
-                }
-            }
-        });
-        //observer.observe(button, { attributes: true });
-
-        button.disabled = true;
-        button.style.outlineColor = 'red';
-        button.style.outlineStyle = 'solid';
-        button.style.outlineWidth = '2px';
-
-        let div = getExtensionDiv(button);
-        div.style.outlineColor = 'red';
-        div.style.outlineStyle = 'solid';
-        div.style.outlineWidth = '2px';
-
-        //addReasons(div, reason);
-
-        console.log('disabled');
-    } else {
-        console.log('could not find button element');
+    if (!button) {
+        return 'could not find button element';
     }
+
+    button.disabled = true;
+    button.style.outlineColor = 'red';
+    button.style.outlineStyle = 'solid';
+    button.style.outlineWidth = '2px';
+
+    let div = getExtensionDiv(button);
+    div.style.outlineColor = 'red';
+    div.style.outlineStyle = 'solid';
+    div.style.outlineWidth = '2px';
+
+    addReasons(div, reason);
+
+    return 'disabled';
+    
 }
 
-disable();
+chrome.runtime.onMessage.addListener(
+    function (request, sender, sendResponse) {
+        let response = disable(request.data);
+
+        console.log(sender.tab ?
+            "from a content script:" + sender.tab.url :
+            "from the extension");
+
+        sendResponse({ data: response });
+    }
+);

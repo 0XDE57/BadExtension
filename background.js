@@ -17,18 +17,6 @@ function isBlacklisted(tab, blacklist) {
     return null;
 }
 
-
-function injectContentScript(tabId, extensionInfo) {
-    //requires 'scripting' permission, and extension store url added to host_permissions
-    const injected = chrome.scripting.executeScript({
-        target: { tabId },
-        files: ['content.js']
-    }).then(() => console.log("script injected"));
-    if (chrome.runtime.lastError) {
-        console.error(chrome.runtime.lastError);
-    }
-}
-
 chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
     if (changeInfo.status === 'complete' && tab.active) {
         if (!blacklist) {
@@ -40,7 +28,10 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
 
         let badExtensionFound = isBlacklisted(tab, blacklist);
         if (badExtensionFound) {
-            injectContentScript(tabId, badExtensionFound);
+            const response = await chrome.tabs.sendMessage(tabId, { 
+                data: badExtensionFound 
+            });
+            console.log(response);
         }
     }
 });

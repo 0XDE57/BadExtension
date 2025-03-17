@@ -13,6 +13,9 @@
         "reasons": [
             "Affiliate/Referral link replacement (tampering)",
             "Privacy policy is invasive"
+        ],
+        "recommended_alternative": [
+            "ublock origin"
         ]
     },
     {
@@ -26,7 +29,7 @@
     {
         "name": "GoFullPage - Full Page Screen Capture",
         "id": "fdpohaocaechififmbbbbbknoalclacl",
-        "endpoints":[
+        "endpoints": [
             "https://www.google-analytics.com",
             "https://stats.g.doubleclick.net/"
         ],
@@ -38,7 +41,7 @@
     {
         "name": "ShortsBlocker - Remove Shorts from YouTube",
         "id": "oahiolknhkbpcolgnpljehalnhblolkm",
-        "endpoints":[
+        "endpoints": [
             "https://stingray-app-buoue.ondigitalocean.app",
             "https://ravensmove.com"
         ],
