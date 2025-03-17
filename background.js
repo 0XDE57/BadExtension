@@ -26,6 +26,20 @@ function setIconViaCanvas() {
     chrome.action.setIcon({ imageData: imageData }, () => { /* ... */ });
 }
 
+/* popup.js <-> background.js
+chrome.runtime.onConnect.addListener(function (port) {
+    console.log("port: " + port);
+    port.onMessage.addListener(function (msg) {
+        console.log("message recieved" + msg);
+        port.postMessage("Hi Popup.js");
+    });
+})*/
+
+chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+    console.log("background onMessage: " + message.data)
+    //chrome.runtime.sendMessage({ data: 'hello from background.js' }, function (response) { });
+});
+
 chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
     if (changeInfo.status === 'complete' && tab.active) {
         if (!blacklist) {
@@ -39,15 +53,22 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
         if (badExtensionFound) {
             chrome.action.setBadgeText({ text: 'Bad!', tabId: tabId });
             chrome.action.setBadgeBackgroundColor({ color: '#FF0000' });
-
-
+            chrome.storage.sync.set({ 'bad': badExtensionFound });
+       
+            /* popup.js <-> background.js
             //Uncaught (in promise) Error: Could not establish connection. Receiving end does not exist.
-            //chrome.runtime.sendMessage({ type: 'BadExtension', extension: badExtensionFound });
+            chrome.runtime.sendMessage({ type: 'BadExtension', extension: badExtensionFound });
+            chrome.runtime.sendMessage({
+                msg: "something_completed", 
+                data: {
+                    subject: "Loading",
+                    content: "Just completed!"
+                }
+            });*/
 
 
             chrome.storage.sync.get(['enableNotifications', 'enablePopup'], (items) => {
                 if (items.enablePopup) {
-                    //todo: pass data to popup
                     chrome.action.openPopup();
                 }
                 if (items.enableNotifications) {
@@ -55,8 +76,8 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
                     const notification = {
                         type: 'basic',
                         iconUrl: 'icon48.png',
-                        title: 'Bad Extension!',
-                        message: `${badExtensionFound.id} is bad!`
+                        title: 'Warning: Bad Extension!',
+                        message: `${badExtensionFound.name} is flagged as bad!`
                     };
                     chrome.notifications.create('BadNotification', notification);
                 }
@@ -64,6 +85,12 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
         } else {
             //clear
             chrome.action.setBadgeText({ text: '', tabId: tabId });
+            chrome.storage.sync.remove(['bad'], function () {
+                var error = chrome.runtime.lastError;
+                if (error) {
+                    console.error(error);
+                }
+            });
         }
     }
 });

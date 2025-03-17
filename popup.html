@@ -5,8 +5,9 @@
   <title>Check Web Store Blacklist</title>
   <style>
     body {
-      width: 200px;
+      width: 300px;
       padding: 10px;
+      background-color: #555;
     }
 
     .settings-icon {
@@ -17,6 +18,25 @@
       height: 24px;
       cursor: pointer;
     }
+
+    .bold {
+      font-weight: bold;
+      display: flex;
+      justify-content: center;
+
+    }
+
+    .outline {
+      outline-color: red;
+      outline-style: solid;
+      outline-width: 1px;
+      border-radius: 15px;
+      margin: 10px
+    }
+
+    .warn {
+      color: orange;
+    }
   </style>
 </head>
 
@@ -24,7 +44,10 @@
   <!--credit: https://iconduck.com/icons/21805/cog | https://iconduck.com/licenses/mit -->
   <img src="cog.244x256.png" alt="Settings" class="settings-icon" id="settingsButton">
   <h1>Bad Extension</h1>
-  <div id="message"></div>
+  <h3 id="name" class="bold"></h3>
+  <div id="message" class="warn"></div>
+  <div id="id" class="bold outline"></div>
+  <div id="reasons"></div>
   <script src="popup.js"></script>
 </body>
 
