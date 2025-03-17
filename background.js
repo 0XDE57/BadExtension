@@ -6,7 +6,6 @@ async function loadBlacklist() {
 }
 
 function isBlacklisted(tab, blacklist) {
-    //var test = await chrome.tabs.query({active: true, lastFocusedWindow: true})
     for (const entry of blacklist) {
         //tab.url requires 'tabs' permision
         if (tab.url.includes(entry.id)) {
@@ -40,23 +39,29 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
         if (badExtensionFound) {
             chrome.action.setBadgeText({ text: 'Bad!', tabId: tabId });
             chrome.action.setBadgeBackgroundColor({ color: '#FF0000' });
-            chrome.action.openPopup();
+
 
             //Uncaught (in promise) Error: Could not establish connection. Receiving end does not exist.
             //chrome.runtime.sendMessage({ type: 'BadExtension', extension: badExtensionFound });
 
 
-
-            const notification = {
-                type: 'basic',
-                iconUrl: 'icon48.png',
-                title: 'Bad Extension!',
-                message: `${badExtensionFound.id} is bad!`
-            };
-            //if notify
-            //chrome.notifications.create('BadNotification', notification);
+            chrome.storage.sync.get(['enableNotifications', 'enablePopup'], (items) => {
+                if (items.enablePopup) {
+                    //todo: pass data to popup
+                    chrome.action.openPopup();
+                }
+                if (items.enableNotifications) {
+                    //requires 'notifications' permission
+                    const notification = {
+                        type: 'basic',
+                        iconUrl: 'icon48.png',
+                        title: 'Bad Extension!',
+                        message: `${badExtensionFound.id} is bad!`
+                    };
+                    chrome.notifications.create('BadNotification', notification);
+                }
+            });
         } else {
-
             //clear
             chrome.action.setBadgeText({ text: '', tabId: tabId });
         }

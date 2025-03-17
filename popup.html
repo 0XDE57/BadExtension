@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>Check Web Store Blacklist</title>
   <style>
@@ -7,11 +8,24 @@
       width: 200px;
       padding: 10px;
     }
+
+    .settings-icon {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
+    }
   </style>
 </head>
+
 <body>
+  <!--credit: https://iconduck.com/icons/21805/cog | https://iconduck.com/licenses/mit -->
+  <img src="cog.244x256.png" alt="Settings" class="settings-icon" id="settingsButton">
   <h1>Bad Extension</h1>
   <div id="message"></div>
   <script src="popup.js"></script>
 </body>
+
 </html>

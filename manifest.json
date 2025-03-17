@@ -5,7 +5,8 @@
     "description": "Checks if an extension ID is in a blacklist.",
     "permissions": [
         "tabs",
-        "notifications"
+        "notifications",
+        "storage"
     ],
     "host_permissions": [
         "https://chromewebstore.google.com/*"
@@ -15,5 +16,6 @@
     },
     "action": {
         "default_popup": "popup.html"
-    }
+    },
+    "options_page": "settings.html"
 }
